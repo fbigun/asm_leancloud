@@ -61,3 +61,12 @@ class ResourceNotFoundMiddleware(object):
             return NotFound()
 
         return self.origin_app(environ, start_response)
+
+
+class CORSMiddleware(object):
+
+    def __init__(self, wsgi_app):
+        self.origin_app = wsgi_app
+
+    def __call__(self, environ, start_response):
+        pass
