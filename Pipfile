@@ -10,6 +10,7 @@ yapf = "*"
 [packages]
 flask = "*"
 flask-restful = "*"
+leancloud = "*"
 
 [requires]
 python_version = "3.8"

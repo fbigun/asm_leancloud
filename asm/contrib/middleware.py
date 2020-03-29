@@ -14,7 +14,6 @@ class HTTPMethodOverrideMiddleware(object):
     使用中间件以接受标准 HTTP 方法
     详见：https://gist.github.com/nervouna/47cf9b694842134c41f59d72bd18bd6c
     """
-
     allowed_methods = frozenset(['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'OPTIONS'])
     bodyless_methods = frozenset(['GET', 'HEAD', 'DELETE', 'OPTIONS'])
 
@@ -37,7 +36,6 @@ class HttpsRedirectMiddleware(object):
     生产环境下始终用 HTTPS 安全协议传输
     设置环境变量 ASM_APP_ENV='production' 时为生产环境
     """
-
     def __init__(self, wsgi_app):
         self.origin_app = wsgi_app
 
@@ -52,7 +50,6 @@ class HttpsRedirectMiddleware(object):
 
 
 class ResourceNotFoundMiddleware(object):
-
     def __init__(self, wsgi_app):
         self.origin_app = wsgi_app
 
@@ -65,7 +62,7 @@ class ResourceNotFoundMiddleware(object):
         return self.origin_app(environ, start_response)
 
 
-class CORSMiddleware(object):
+class LeancloudCORSMiddleware(object):
     ALLOW_ORIGIN = utils.to_native('*')
     ALLOW_HEADERS = utils.to_native(', '.join([
         'Content-Type',
