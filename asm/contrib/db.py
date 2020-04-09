@@ -2,6 +2,7 @@ import os
 from abc import ABC, abstractmethod
 
 import leancloud
+from leancloud import LeanCloudError
 
 
 class Store(ABC):
@@ -62,16 +63,31 @@ class LeancloudStore(Store):
         self.proxys = leancloud.Object.extend('proxys')
 
     def get_suburl(self, expires=False):
-        query = self.suburls.query
+        return self._get_resouce(expires)
+
+    def set_suburl(self, url, expires=False):
+        self._set_resouce('url', url, expires)
+
+    def get_proxy(self, expires=False):
+        return self._get_resouce(expires)
+
+    def set_proxy(self, proxy, expires=False, **kwargs):
+        self._set_resouce('proxy', proxy, expires)
+
+    def _get_resouce(self, expires=False):
+        query = self.resouce.query
         query.equal_to('expires', expires)
         urls = query.find()
         return [item.dump() for item in urls]
 
-    def set_suburl(self, url):
-        pass
-
-    def get_proxy(self):
-        pass
-
-    def set_proxy(self, **kwargs):
-        pass
+    def _set_resouce(self, resoucename, resouce, expires=False, **kwargs):
+        query = self.resouce.query
+        query.equal_to(resoucename, resouce)
+        try:
+            proxy = query.first()
+        except LeanCloudError as e:
+            proxy = self.proxys()
+        finally:
+            proxy.set(resoucename, resouce)
+            proxy.set('expires', expires)
+            proxy.save()
