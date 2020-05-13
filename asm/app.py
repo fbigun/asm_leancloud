@@ -2,16 +2,16 @@
 
 from flask import Flask
 from flask_restful import Api
+from asm.contrib.middleware import HTTPMethodOverrideMiddleware, HttpsRedirectMiddleware
+from asm.api import shadowsocks, shadowsocksr, vmess
 
 app = Flask(__name__)
-app = Api(app)
+api = Api(app)
 
-from asm.common.middleware import HTTPMethodOverrideMiddleware, HttpsRedirectMiddleware
+api.add_resource(shadowsocks, '/ss')
+api.add_resource(shadowsocksr, '/ssr')
+api.add_resource(vmess, '/vmess')
 
 # 注册中间件
 app.wsgi_app = HTTPMethodOverrideMiddleware(app.wsgi_app)
 app.wsgi_app = HttpsRedirectMiddleware(app.wsgi_app)
-
-# 动态路由
-# app.register_blueprint(todos_view, url_prefix='/todos')
-# app.register_blueprint(users_view, url_prefix='/users')

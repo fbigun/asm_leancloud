@@ -2,7 +2,6 @@ from flask_restful import Resource
 
 
 class shadowsocks(Resource):
-
     def get(self):
         return
 
@@ -11,7 +10,6 @@ class shadowsocks(Resource):
 
 
 class shadowsocksr(Resource):
-
     def get(self):
         return
 
@@ -20,7 +18,6 @@ class shadowsocksr(Resource):
 
 
 class vmess(Resource):
-
     def get(self):
         return
 
